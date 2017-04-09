@@ -1,5 +1,5 @@
 //
-//  CYGridCell.h
+//  CYCollectionCell.h
 //  CYTagView
 //
 //  Created by SimonChen on 17/3/28.
@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-//@protocol CYGridCellDelegate <NSObject>
+//@protocol CYCollectionCellDelegate <NSObject>
 //@property (nonatomic, strong) NSIndexPath *indexPath;
 //@end
 //
-@interface CYGridCell : UIView
-//<CYGridCellDelegate>
+@interface CYCollectionCell : UIView
+//<CYCollectionCellDelegate>
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @end

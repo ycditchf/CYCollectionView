@@ -7,14 +7,14 @@
 //
 
 #import "CYTagViewController.h"
-#import "CYGridView.h"
+#import "CYCollectionView.h"
 #import "CYTagCell.h"
 #import "CYTagCellHeader.h"
 
 #define  kSpaceOfItems 18
 
-@interface CYTagViewController () <CYGridViewDelegate>
-@property (nonatomic, strong) CYGridView *gridView;
+@interface CYTagViewController () <CYCollectionViewDelegate>
+@property (nonatomic, strong) CYCollectionView *gridView;
 @property (nonatomic, strong) NSMutableArray *myTags;
 @property (nonatomic, strong) NSMutableArray *recommendTags;
 
@@ -60,11 +60,11 @@
 
 #pragma mark -
 
-- (NSInteger)numberOfSectionInGridView:(CYGridView *)gridView
+- (NSInteger)numberOfSectionInGridView:(CYCollectionView *)gridView
 {
     return 2;
 }
-- (NSInteger)gridView:(CYGridView *)gridView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)gridView:(CYCollectionView *)gridView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
         return self.myTags.count;
@@ -73,7 +73,7 @@
     }
 }
 
-- (CGSize)gridView:(CYGridView *)gridView sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (CGSize)gridView:(CYCollectionView *)gridView sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.tagType == 0) {
         return CGSizeMake((self.view.bounds.size.width - 20-3*kSpaceOfItems)/4, 38);
@@ -91,7 +91,7 @@
     return CGSizeMake(width, 38);
 }
 
-- (CYGridCell *)gridView:(CYGridView *)gridView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CYCollectionCell *)gridView:(CYCollectionView *)gridView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Configure the cell
     CYTagCell *cell = [[NSBundle mainBundle] loadNibNamed:@"CYTagCell" owner:nil options:nil].lastObject;
@@ -127,7 +127,7 @@
     }
 }
 
-- (UIView *)gridView:(CYGridView *)gridView headerViewForSection:(NSInteger)section
+- (UIView *)gridView:(CYCollectionView *)gridView headerViewForSection:(NSInteger)section
 {
     CYTagCellHeader *headerView = [[NSBundle mainBundle] loadNibNamed:@"CYTagCellHeader" owner:nil options:nil].lastObject;
     if (section == 0) {
@@ -149,21 +149,21 @@
     return headerView;
 }
 
-- (CGFloat)gridView:(CYGridView *)gridView interitemSpacingForSectionAtIndex:(NSInteger)section
+- (CGFloat)gridView:(CYCollectionView *)gridView interitemSpacingForSectionAtIndex:(NSInteger)section
 {
     return kSpaceOfItems;
 }
-- (CGFloat)gridView:(CYGridView *)gridView lineSpacingForSectionAtIndex:(NSInteger)section
+- (CGFloat)gridView:(CYCollectionView *)gridView lineSpacingForSectionAtIndex:(NSInteger)section
 {
     return 10;
 }
 
-- (UIEdgeInsets)gridView:(CYGridView *)gridView insetForSectionAtIndex:(NSInteger)section
+- (UIEdgeInsets)gridView:(CYCollectionView *)gridView insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsMake(15, 10, 15, 10);
 }
 
-- (void)gridView:(CYGridView *)gridView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)gridView:(CYCollectionView *)gridView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"indexPath:%@",indexPath);
     if (indexPath.section == 1) {
@@ -186,7 +186,7 @@
     }
 }
 
-- (void)gridView:(CYGridView *)gridView moveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+- (void)gridView:(CYCollectionView *)gridView moveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     NSString *text = nil;
     if (fromIndexPath.section == 0) {
@@ -198,7 +198,7 @@
     }
 }
 
-- (BOOL)gridViewShouldReorder:(CYGridView *)gridView atIndexPath:(NSIndexPath *)indexPath
+- (BOOL)gridViewShouldReorder:(CYCollectionView *)gridView atIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
@@ -211,7 +211,7 @@
     }
 }
 
-- (NSInteger)gridViewBeginDragIndex:(CYGridView *)gridView atSection:(NSInteger)section
+- (NSInteger)gridViewBeginDragIndex:(CYCollectionView *)gridView atSection:(NSInteger)section
 {
     if (section == 0) {
         return 0;
@@ -219,10 +219,10 @@
     return -1;
 }
 
-- (CYGridView *)gridView
+- (CYCollectionView *)gridView
 {
     if (!_gridView) {
-        _gridView = [[CYGridView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        _gridView = [[CYCollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
         _gridView.gridDelegate = self;
     }
     return _gridView;

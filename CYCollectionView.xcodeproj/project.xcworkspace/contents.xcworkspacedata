@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:CYTagView.xcodeproj">
+      location = "self:/Users/fengyunlianqing/iPhone/github/CYTagView/CYCollectionView.xcodeproj">
    </FileRef>
 </Workspace>

@@ -7,15 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2F2906451E8B87C800B9C88C /* UIView+CYGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2906441E8B87C800B9C88C /* UIView+CYGridView.m */; };
+		2F2906451E8B87C800B9C88C /* UIView+CYCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F2906441E8B87C800B9C88C /* UIView+CYCollectionView.m */; };
 		2F57AE851E88C51900E1FB2A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AE841E88C51900E1FB2A /* main.m */; };
 		2F57AE881E88C51900E1FB2A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AE871E88C51900E1FB2A /* AppDelegate.m */; };
 		2F57AE8B1E88C51900E1FB2A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AE8A1E88C51900E1FB2A /* ViewController.m */; };
 		2F57AE8E1E88C51900E1FB2A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F57AE8C1E88C51900E1FB2A /* Main.storyboard */; };
 		2F57AE901E88C51900E1FB2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2F57AE8F1E88C51900E1FB2A /* Assets.xcassets */; };
 		2F57AE931E88C51900E1FB2A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2F57AE911E88C51900E1FB2A /* LaunchScreen.storyboard */; };
-		2F57AEAA1E8A047400E1FB2A /* CYGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AEA91E8A047400E1FB2A /* CYGridView.m */; };
-		2F57AEAD1E8A04F100E1FB2A /* CYGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AEAC1E8A04F100E1FB2A /* CYGridCell.m */; };
+		2F57AEAA1E8A047400E1FB2A /* CYCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AEA91E8A047400E1FB2A /* CYCollectionView.m */; };
+		2F57AEAD1E8A04F100E1FB2A /* CYCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AEAC1E8A04F100E1FB2A /* CYCollectionCell.m */; };
 		2F57AEB11E8A2F3A00E1FB2A /* CYTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AEB01E8A2F3A00E1FB2A /* CYTagViewController.m */; };
 		2F57AEB81E8A314E00E1FB2A /* CYTagCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F57AEB61E8A314E00E1FB2A /* CYTagCell.m */; };
 		2F57AEB91E8A314E00E1FB2A /* CYTagCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2F57AEB71E8A314E00E1FB2A /* CYTagCell.xib */; };
@@ -24,9 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2F2906431E8B87C800B9C88C /* UIView+CYGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYGridView.h"; sourceTree = "<group>"; };
-		2F2906441E8B87C800B9C88C /* UIView+CYGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYGridView.m"; sourceTree = "<group>"; };
-		2F57AE801E88C51900E1FB2A /* CYTagView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CYTagView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2F2906431E8B87C800B9C88C /* UIView+CYCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CYCollectionView.h"; sourceTree = "<group>"; };
+		2F2906441E8B87C800B9C88C /* UIView+CYCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CYCollectionView.m"; sourceTree = "<group>"; };
+		2F57AE801E88C51900E1FB2A /* CYCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CYCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F57AE841E88C51900E1FB2A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2F57AE861E88C51900E1FB2A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2F57AE871E88C51900E1FB2A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -36,10 +36,10 @@
 		2F57AE8F1E88C51900E1FB2A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2F57AE921E88C51900E1FB2A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2F57AE941E88C51900E1FB2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2F57AEA81E8A047400E1FB2A /* CYGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYGridView.h; sourceTree = "<group>"; };
-		2F57AEA91E8A047400E1FB2A /* CYGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYGridView.m; sourceTree = "<group>"; };
-		2F57AEAB1E8A04F100E1FB2A /* CYGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYGridCell.h; sourceTree = "<group>"; };
-		2F57AEAC1E8A04F100E1FB2A /* CYGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYGridCell.m; sourceTree = "<group>"; };
+		2F57AEA81E8A047400E1FB2A /* CYCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCollectionView.h; sourceTree = "<group>"; };
+		2F57AEA91E8A047400E1FB2A /* CYCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYCollectionView.m; sourceTree = "<group>"; };
+		2F57AEAB1E8A04F100E1FB2A /* CYCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYCollectionCell.h; sourceTree = "<group>"; };
+		2F57AEAC1E8A04F100E1FB2A /* CYCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYCollectionCell.m; sourceTree = "<group>"; };
 		2F57AEAF1E8A2F3A00E1FB2A /* CYTagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYTagViewController.h; sourceTree = "<group>"; };
 		2F57AEB01E8A2F3A00E1FB2A /* CYTagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYTagViewController.m; sourceTree = "<group>"; };
 		2F57AEB51E8A314E00E1FB2A /* CYTagCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYTagCell.h; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 		2F57AE771E88C51900E1FB2A = {
 			isa = PBXGroup;
 			children = (
-				2F57AE821E88C51900E1FB2A /* CYTagView */,
+				2F57AE821E88C51900E1FB2A /* CYCollectionView */,
 				2F57AE811E88C51900E1FB2A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -72,12 +72,12 @@
 		2F57AE811E88C51900E1FB2A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2F57AE801E88C51900E1FB2A /* CYTagView.app */,
+				2F57AE801E88C51900E1FB2A /* CYCollectionView.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2F57AE821E88C51900E1FB2A /* CYTagView */ = {
+		2F57AE821E88C51900E1FB2A /* CYCollectionView */ = {
 			isa = PBXGroup;
 			children = (
 				2F57AE861E88C51900E1FB2A /* AppDelegate.h */,
@@ -85,14 +85,14 @@
 				2F57AE891E88C51900E1FB2A /* ViewController.h */,
 				2F57AE8A1E88C51900E1FB2A /* ViewController.m */,
 				2F57AEBA1E8A450F00E1FB2A /* TagDemo */,
-				2F57AEAE1E8A09B700E1FB2A /* CYGridView */,
+				2F57AEAE1E8A09B700E1FB2A /* CYCollectionView */,
 				2F57AE8C1E88C51900E1FB2A /* Main.storyboard */,
 				2F57AE8F1E88C51900E1FB2A /* Assets.xcassets */,
 				2F57AE911E88C51900E1FB2A /* LaunchScreen.storyboard */,
 				2F57AE941E88C51900E1FB2A /* Info.plist */,
 				2F57AE831E88C51900E1FB2A /* Supporting Files */,
 			);
-			path = CYTagView;
+			path = CYCollectionView;
 			sourceTree = "<group>";
 		};
 		2F57AE831E88C51900E1FB2A /* Supporting Files */ = {
@@ -103,17 +103,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		2F57AEAE1E8A09B700E1FB2A /* CYGridView */ = {
+		2F57AEAE1E8A09B700E1FB2A /* CYCollectionView */ = {
 			isa = PBXGroup;
 			children = (
-				2F57AEA81E8A047400E1FB2A /* CYGridView.h */,
-				2F57AEA91E8A047400E1FB2A /* CYGridView.m */,
-				2F57AEAB1E8A04F100E1FB2A /* CYGridCell.h */,
-				2F57AEAC1E8A04F100E1FB2A /* CYGridCell.m */,
-				2F2906431E8B87C800B9C88C /* UIView+CYGridView.h */,
-				2F2906441E8B87C800B9C88C /* UIView+CYGridView.m */,
+				2F57AEA81E8A047400E1FB2A /* CYCollectionView.h */,
+				2F57AEA91E8A047400E1FB2A /* CYCollectionView.m */,
+				2F57AEAB1E8A04F100E1FB2A /* CYCollectionCell.h */,
+				2F57AEAC1E8A04F100E1FB2A /* CYCollectionCell.m */,
+				2F2906431E8B87C800B9C88C /* UIView+CYCollectionView.h */,
+				2F2906441E8B87C800B9C88C /* UIView+CYCollectionView.m */,
 			);
-			name = CYGridView;
+			name = CYCollectionView;
 			sourceTree = "<group>";
 		};
 		2F57AEBA1E8A450F00E1FB2A /* TagDemo */ = {
@@ -134,9 +134,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2F57AE7F1E88C51900E1FB2A /* CYTagView */ = {
+		2F57AE7F1E88C51900E1FB2A /* CYCollectionView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2F57AE971E88C51900E1FB2A /* Build configuration list for PBXNativeTarget "CYTagView" */;
+			buildConfigurationList = 2F57AE971E88C51900E1FB2A /* Build configuration list for PBXNativeTarget "CYCollectionView" */;
 			buildPhases = (
 				2F57AE7C1E88C51900E1FB2A /* Sources */,
 				2F57AE7D1E88C51900E1FB2A /* Frameworks */,
@@ -146,9 +146,9 @@
 			);
 			dependencies = (
 			);
-			name = CYTagView;
+			name = CYCollectionView;
 			productName = CYTagView;
-			productReference = 2F57AE801E88C51900E1FB2A /* CYTagView.app */;
+			productReference = 2F57AE801E88C51900E1FB2A /* CYCollectionView.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -167,7 +167,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2F57AE7B1E88C51900E1FB2A /* Build configuration list for PBXProject "CYTagView" */;
+			buildConfigurationList = 2F57AE7B1E88C51900E1FB2A /* Build configuration list for PBXProject "CYCollectionView" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -180,7 +180,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2F57AE7F1E88C51900E1FB2A /* CYTagView */,
+				2F57AE7F1E88C51900E1FB2A /* CYCollectionView */,
 			);
 		};
 /* End PBXProject section */
@@ -206,12 +206,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F57AEB11E8A2F3A00E1FB2A /* CYTagViewController.m in Sources */,
-				2F57AEAD1E8A04F100E1FB2A /* CYGridCell.m in Sources */,
+				2F57AEAD1E8A04F100E1FB2A /* CYCollectionCell.m in Sources */,
 				2F57AE8B1E88C51900E1FB2A /* ViewController.m in Sources */,
 				2F57AEBE1E8A457700E1FB2A /* CYTagCellHeader.m in Sources */,
 				2F57AE881E88C51900E1FB2A /* AppDelegate.m in Sources */,
-				2F57AEAA1E8A047400E1FB2A /* CYGridView.m in Sources */,
-				2F2906451E8B87C800B9C88C /* UIView+CYGridView.m in Sources */,
+				2F57AEAA1E8A047400E1FB2A /* CYCollectionView.m in Sources */,
+				2F2906451E8B87C800B9C88C /* UIView+CYCollectionView.m in Sources */,
 				2F57AE851E88C51900E1FB2A /* main.m in Sources */,
 				2F57AEB81E8A314E00E1FB2A /* CYTagCell.m in Sources */,
 			);
@@ -332,7 +332,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = Z4253TE93Z;
-				INFOPLIST_FILE = CYTagView/Info.plist;
+				INFOPLIST_FILE = CYCollectionView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rainbow.CYTagView;
@@ -345,7 +345,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = Z4253TE93Z;
-				INFOPLIST_FILE = CYTagView/Info.plist;
+				INFOPLIST_FILE = CYCollectionView/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.rainbow.CYTagView;
@@ -356,7 +356,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2F57AE7B1E88C51900E1FB2A /* Build configuration list for PBXProject "CYTagView" */ = {
+		2F57AE7B1E88C51900E1FB2A /* Build configuration list for PBXProject "CYCollectionView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2F57AE951E88C51900E1FB2A /* Debug */,
@@ -365,7 +365,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2F57AE971E88C51900E1FB2A /* Build configuration list for PBXNativeTarget "CYTagView" */ = {
+		2F57AE971E88C51900E1FB2A /* Build configuration list for PBXNativeTarget "CYCollectionView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2F57AE981E88C51900E1FB2A /* Debug */,

@@ -6,9 +6,9 @@
 //  Copyright © 2017年 rainbow. All rights reserved.
 //
 
-#import "CYGridCell.h"
+#import "CYCollectionCell.h"
 
-@interface CYTagCell : CYGridCell
+@interface CYTagCell : CYCollectionCell
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *bgImgView;
 @property (weak, nonatomic) IBOutlet UIButton *deleteBtn;

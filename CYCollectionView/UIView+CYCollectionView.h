@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (CYGridView)
+@interface UIView (CYCollectionView)
 @property (nonatomic, assign) NSInteger gridViewSectionIndex;
 
 @end

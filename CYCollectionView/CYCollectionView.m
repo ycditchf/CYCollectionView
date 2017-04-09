@@ -1,18 +1,18 @@
 //
-//  CYGridView.m
+//  CYCollectionView.m
 //  CYTagView
 //
 //  Created by SimonChen on 17/3/28.
 //  Copyright © 2017年 rainbow. All rights reserved.
 //
 
-#import "CYGridView.h"
-#import "CYGridCell.h"
-#import "UIView+CYGridView.h"
+#import "CYCollectionView.h"
+#import "CYCollectionCell.h"
+#import "UIView+CYCollectionView.h"
 
 #define kVisibleCellsKey @"CELLS_SECTION"
 
-@interface CYGridView () <UIGestureRecognizerDelegate>
+@interface CYCollectionView () <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NSMutableSet *reuseCells;
 @property (nonatomic, strong) NSMutableDictionary *allVisibleCells; //可见视图 TODO:目前包括不可见视图
 @property (nonatomic, strong) NSMutableArray *allSupplementViews; //页眉、页脚
@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSMutableDictionary *itemFrameCache;
 @property (nonatomic, assign) BOOL isPickUpCell;
 @property (nonatomic, assign) BOOL isItemMoving;
-@property (nonatomic, strong) CYGridCell *pickUpCell;
+@property (nonatomic, strong) CYCollectionCell *pickUpCell;
 @property (nonatomic, assign) NSIndexPath *pickUpIndexPath;
 
 
@@ -30,7 +30,7 @@
 //@property (nonatomic, strong) UIScrollView *scrollView;
 @end
 
-@implementation CYGridView
+@implementation CYCollectionView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -153,7 +153,7 @@
     }
 }
 
-- (void)addGridCell:(CYGridCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)addGridCell:(CYCollectionCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     cell.indexPath = indexPath;
     cell.frame = [self frameForItemAtIndexPath:indexPath];
@@ -164,17 +164,17 @@
 
 - (void)addGridCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    CYGridCell *itemView = [self dequeueReusableCellAtIndexPath:indexPath];
+    CYCollectionCell *itemView = [self dequeueReusableCellAtIndexPath:indexPath];
     [self addGridCell:itemView atIndexPath:indexPath];
 }
 
-- (CYGridCell *)removeItemAtIndexPath:(NSIndexPath *)indexPath
+- (CYCollectionCell *)removeItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *key = [NSString stringWithFormat:@"%@%zd", kVisibleCellsKey, indexPath.section];
 
     NSMutableArray *visibleCells = self.allVisibleCells[key];
-    __block CYGridCell *removeCell = nil;
-    [visibleCells enumerateObjectsUsingBlock:^(CYGridCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    __block CYCollectionCell *removeCell = nil;
+    [visibleCells enumerateObjectsUsingBlock:^(CYCollectionCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.indexPath isEqual:indexPath]) {
             removeCell = obj;
             *stop = YES;
@@ -184,7 +184,7 @@
     return removeCell;
 }
 
-- (void)addTapGesture:(CYGridCell *)cell
+- (void)addTapGesture:(CYCollectionCell *)cell
 {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
     [cell addGestureRecognizer:tap];
@@ -192,13 +192,13 @@
 
 - (void)onTap:(UIGestureRecognizer *)gesture
 {
-    CYGridCell *cell = (CYGridCell *)gesture.view;
+    CYCollectionCell *cell = (CYCollectionCell *)gesture.view;
     if ([self.gridDelegate respondsToSelector:@selector(gridView:didSelectItemAtIndexPath:)]) {
         [self.gridDelegate gridView:self didSelectItemAtIndexPath:cell.indexPath];
     }
 }
 
-- (void)addPanGesture:(CYGridCell *)cell
+- (void)addPanGesture:(CYCollectionCell *)cell
 {
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPanGesture:)];
     pan.delegate = self;
@@ -207,7 +207,7 @@
 
 - (void)onPanGesture:(UIGestureRecognizer *)gesture
 {
-    CYGridCell *cell = (CYGridCell *)gesture.view;
+    CYCollectionCell *cell = (CYCollectionCell *)gesture.view;
     UIView *containerView = [self itemsContainerAtSection:cell.indexPath.section];
 
     if (gesture.state == UIGestureRecognizerStateBegan) {
@@ -327,7 +327,7 @@
         NSMutableArray *visibleCells = self.allVisibleCells[key];
 
         NSMutableArray *willUpdateCell = @[].mutableCopy;
-        [visibleCells enumerateObjectsUsingBlock:^(CYGridCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [visibleCells enumerateObjectsUsingBlock:^(CYCollectionCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
 
             if (obj != self.pickUpCell) {
                 NSInteger row = obj.indexPath.row;
@@ -374,7 +374,7 @@
 #pragma mark - UIGestureDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
 {
-    if (![gestureRecognizer.view isKindOfClass:[CYGridCell class]]) {
+    if (![gestureRecognizer.view isKindOfClass:[CYCollectionCell class]]) {
         return YES;
     }
 
@@ -384,8 +384,8 @@
 
     if ([gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] ) {
         //        if (self.isEdit) {
-        CYGridCell *cell = (CYGridCell *)gestureRecognizer.view;
-        if (![cell isKindOfClass:[CYGridCell class]]) {
+        CYCollectionCell *cell = (CYCollectionCell *)gestureRecognizer.view;
+        if (![cell isKindOfClass:[CYCollectionCell class]]) {
             return NO;
         }
         if ([self.gridDelegate respondsToSelector:@selector(gridViewShouldReorder:atIndexPath:)]) {
@@ -430,7 +430,7 @@
     }
 }
 //TODO:优化
-#pragma mark - CYGridCell Frame Cache Method
+#pragma mark - CYCollectionCell Frame Cache Method
 - (CGRect)itemCacheFrameAtIndexPath:(NSIndexPath *)indexPath
 {
     NSString *sectionkey = [NSString stringWithFormat:@"secion_%zd",indexPath.section];
@@ -572,8 +572,8 @@
     //TODO:
     return 0;
 }
-#pragma mark - CYGridCell Method
-- (void)addVisibleCell:(CYGridCell *)cell
+#pragma mark - CYCollectionCell Method
+- (void)addVisibleCell:(CYCollectionCell *)cell
 {
     NSIndexPath *indexPath = cell.indexPath;
     NSString *key = [NSString stringWithFormat:@"%@%zd", kVisibleCellsKey, indexPath.section];
@@ -587,10 +587,10 @@
     [visibleCells addObject:cell];
 }
 
-- (CYGridCell *)dequeueReusableCellAtIndexPath:(NSIndexPath *)indexPath
+- (CYCollectionCell *)dequeueReusableCellAtIndexPath:(NSIndexPath *)indexPath
 {
     //TODO:根据 reuse identifier 来做缓存
-    CYGridCell *cell = self.reuseCells.anyObject;
+    CYCollectionCell *cell = self.reuseCells.anyObject;
     if (!cell) {
         cell = [self cellForRowAtRow:indexPath.row section:indexPath.section];
         if (cell) {
@@ -605,13 +605,13 @@
     return  cell;
 }
 
-- (CYGridCell *)cellForItemIndexPath:(NSIndexPath *)indexPath
+- (CYCollectionCell *)cellForItemIndexPath:(NSIndexPath *)indexPath
 {
-    __block CYGridCell *cell = nil;
+    __block CYCollectionCell *cell = nil;
     NSString *key = [NSString stringWithFormat:@"%@%zd", kVisibleCellsKey, indexPath.section];
     NSMutableArray *visibleCells = self.allVisibleCells[key];
 
-    [visibleCells enumerateObjectsUsingBlock:^(CYGridCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [visibleCells enumerateObjectsUsingBlock:^(CYCollectionCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([obj.indexPath isEqual:indexPath]) {
             cell = obj;
             *stop = YES;
@@ -745,9 +745,9 @@
     return itemSize;
 }
 
-- (CYGridCell *)cellForRowAtRow:(NSInteger)row section:(NSInteger)section
+- (CYCollectionCell *)cellForRowAtRow:(NSInteger)row section:(NSInteger)section
 {
-    CYGridCell *cell = nil;
+    CYCollectionCell *cell = nil;
     if ([self.gridDelegate respondsToSelector:@selector(gridView:cellForRowAtIndexPath:)]) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
         cell = [self.gridDelegate gridView:self cellForRowAtIndexPath:indexPath];
@@ -819,7 +819,7 @@
         NSString *key = [NSString stringWithFormat:@"%@%zd", kVisibleCellsKey, indexPath.section];
         NSMutableArray *visibleCells = self.allVisibleCells[key];
 
-        [visibleCells enumerateObjectsUsingBlock:^(CYGridCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [visibleCells enumerateObjectsUsingBlock:^(CYCollectionCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.indexPath.section == indexPath.section &&
                 obj.indexPath.row >= indexPath.row) {
                 obj.indexPath = [NSIndexPath indexPathForRow:obj.indexPath.row+1 inSection:obj.indexPath.section];
@@ -830,7 +830,7 @@
         [self addGridCellAtIndexPath:indexPath];
     }
 
-    for (CYGridCell *cell in willUpdateItems) {
+    for (CYCollectionCell *cell in willUpdateItems) {
         [self clearItemFrameCacheFromIndexPath:cell.indexPath];
     }
 
@@ -860,14 +860,14 @@
 
     for (NSIndexPath *indexPath in indexPaths) {
 
-        CYGridCell *removeCell =  [self removeItemAtIndexPath:indexPath];
+        CYCollectionCell *removeCell =  [self removeItemAtIndexPath:indexPath];
         [removeCell removeFromSuperview];
 
         //移除之后要改变在这个位置之后cell的indexPath
         NSString *key = [NSString stringWithFormat:@"%@%zd", kVisibleCellsKey, indexPath.section];
         NSMutableArray *visibleCells = self.allVisibleCells[key];
 
-        [visibleCells enumerateObjectsUsingBlock:^(CYGridCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [visibleCells enumerateObjectsUsingBlock:^(CYCollectionCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.indexPath.section == indexPath.section &&
                 obj.indexPath.row > indexPath.row) {
                 obj.indexPath = [NSIndexPath indexPathForRow:obj.indexPath.row-1 inSection:obj.indexPath.section];
@@ -879,7 +879,7 @@
     }
 
 
-    for (CYGridCell *cell in willUpdateItems) {
+    for (CYCollectionCell *cell in willUpdateItems) {
         [self clearItemFrameCacheFromIndexPath:cell.indexPath];
     }
 
@@ -915,7 +915,7 @@
 - (void)updateItemsFrame:(NSMutableArray *)willUpdateItems completion:(void(^)(void))completion
 {
     //从小到大排序
-    [willUpdateItems sortUsingComparator:^NSComparisonResult(CYGridCell *obj1, CYGridCell *obj2) {
+    [willUpdateItems sortUsingComparator:^NSComparisonResult(CYCollectionCell *obj1, CYCollectionCell *obj2) {
         if (obj1.indexPath.section < obj2.indexPath.section) {
             return NSOrderedAscending;
         }else if (obj1.indexPath.section > obj2.indexPath.section) {
@@ -933,7 +933,7 @@
     [UIView animateWithDuration:0.3 animations:^{
 
         //item
-        [willUpdateItems enumerateObjectsUsingBlock:^(CYGridCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [willUpdateItems enumerateObjectsUsingBlock:^(CYCollectionCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
             obj.frame = [self frameForItemAtIndexPath:obj.indexPath];
         }];
 
@@ -959,13 +959,13 @@
     }
 
     //过渡效果
-    CYGridCell *cell = [self removeItemAtIndexPath:indexPath];
+    CYCollectionCell *cell = [self removeItemAtIndexPath:indexPath];
     cell.frame = [self.containerView convertRect:cell.frame fromView:cell.superview];
     [self.containerView addSubview:cell];
 
     NSMutableArray *willUpdateCell = [self moveForwardItemsFromIndexPath:indexPath];
 
-    for (CYGridCell *cell in willUpdateCell) {
+    for (CYCollectionCell *cell in willUpdateCell) {
         [self clearItemFrameCacheFromIndexPath:cell.indexPath];
     }
 
@@ -976,7 +976,7 @@
 
     cell.indexPath = newIndexPath;
 
-    for (CYGridCell *cell in willUpdateCell) {
+    for (CYCollectionCell *cell in willUpdateCell) {
         [self clearItemFrameCacheFromIndexPath:cell.indexPath];
     }
 
@@ -1006,7 +1006,7 @@
     NSString *key = [NSString stringWithFormat:@"%@%zd", kVisibleCellsKey, indexPath.section];
     NSMutableArray *visibleCells = self.allVisibleCells[key];
 
-    [visibleCells enumerateObjectsUsingBlock:^(CYGridCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [visibleCells enumerateObjectsUsingBlock:^(CYCollectionCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.indexPath.section == indexPath.section &&
             obj.indexPath.row >= indexPath.row) {
             obj.indexPath = [NSIndexPath indexPathForRow:obj.indexPath.row+1 inSection:obj.indexPath.section];
@@ -1026,7 +1026,7 @@
     NSString *key = [NSString stringWithFormat:@"%@%zd", kVisibleCellsKey, indexPath.section];
     NSMutableArray *visibleCells = self.allVisibleCells[key];
 
-    [visibleCells enumerateObjectsUsingBlock:^(CYGridCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [visibleCells enumerateObjectsUsingBlock:^(CYCollectionCell *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (obj.indexPath.section == indexPath.section &&
             obj.indexPath.row >= indexPath.row) {
             obj.indexPath = [NSIndexPath indexPathForRow:obj.indexPath.row-1 inSection:obj.indexPath.section];

@@ -1,14 +1,14 @@
 //
-//  CYGridCell.m
+//  CYCollectionCell.m
 //  CYTagView
 //
 //  Created by SimonChen on 17/3/28.
 //  Copyright © 2017年 rainbow. All rights reserved.
 //
 
-#import "CYGridCell.h"
+#import "CYCollectionCell.h"
 
-@implementation CYGridCell
+@implementation CYCollectionCell
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
