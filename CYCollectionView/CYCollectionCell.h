@@ -15,4 +15,5 @@
 @interface CYCollectionCell : UIView
 //<CYCollectionCellDelegate>
 @property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, strong) NSString *reuseIdentifier;
 @end

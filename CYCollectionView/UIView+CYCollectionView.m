@@ -23,4 +23,24 @@
     }
     return NSNotFound;
 }
+
+- (void)setCollectionView_tapGesture:(UITapGestureRecognizer *)collectionView_tapGesture
+{
+    objc_setAssociatedObject(self, @selector(collectionView_tapGesture), collectionView_tapGesture, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (UITapGestureRecognizer *)collectionView_tapGesture
+{
+    return objc_getAssociatedObject(self, @selector(collectionView_tapGesture));
+}
+
+- (void)setCollectionView_panGesture:(UIPanGestureRecognizer *)collectionView_panGesture
+{
+    objc_setAssociatedObject(self, @selector(setCollectionView_panGesture:), collectionView_panGesture, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (UIPanGestureRecognizer *)collectionView_panGesture
+{
+    return objc_getAssociatedObject(self, @selector(collectionView_panGesture));
+}
 @end

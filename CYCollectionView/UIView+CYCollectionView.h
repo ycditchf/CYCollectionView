@@ -10,5 +10,6 @@
 
 @interface UIView (CYCollectionView)
 @property (nonatomic, assign) NSInteger collectionViewSectionIndex;
-
+@property (nonatomic, strong) UITapGestureRecognizer *collectionView_tapGesture;
+@property (nonatomic, strong) UIPanGestureRecognizer *collectionView_panGesture;
 @end

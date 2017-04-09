@@ -95,7 +95,12 @@
 - (CYCollectionCell *)collectionView:(CYCollectionView *)collectionView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Configure the cell
-    CYTagCell *cell = [[NSBundle mainBundle] loadNibNamed:@"CYTagCell" owner:nil options:nil].lastObject;
+    CYTagCell *cell = (CYTagCell *)[collectionView dequeueReusableCellWithIdentifier:@"CYTagCell"];
+    if (!cell) {
+        cell = [[NSBundle mainBundle] loadNibNamed:@"CYTagCell" owner:nil options:nil].lastObject;
+        cell.reuseIdentifier = @"CYTagCell";
+    }
+
     if (indexPath.section == 0) {
         cell.textLabel.text = self.myTags[indexPath.row];
         if (indexPath.row == 0) {

@@ -13,10 +13,20 @@
 #define kVisibleCellsKey @"CELLS_SECTION"
 
 @interface CYCollectionView () <UIGestureRecognizerDelegate>
-@property (nonatomic, strong) NSMutableSet *reuseCells;
+
+/**
+ key: reuseIdentifier
+ value: 装有可重复利用的cell（NSMutableSet）
+ */
+@property (nonatomic, strong) NSMutableDictionary *reuseCells;
 @property (nonatomic, strong) NSMutableDictionary *allVisibleCells; //可见视图 TODO:目前包括不可见视图
 @property (nonatomic, strong) NSMutableArray *allSupplementViews; //页眉、页脚
-@property (nonatomic, strong) NSMutableDictionary *containers; //item 容器视图
+
+/**
+ key： 对应 section key
+ value: 对应 section cell的容器视图 (UIView)
+ */
+@property (nonatomic, strong) NSMutableDictionary *containers;
 @property (nonatomic, strong) UIView *containerView;
 
 @property (nonatomic, strong) NSMutableDictionary *itemFrameCache;
@@ -52,7 +62,7 @@
 
 - (void)configData
 {
-    _reuseCells = [NSMutableSet new];
+    _reuseCells = @{}.mutableCopy;
     _allVisibleCells = @{}.mutableCopy;
     _allSupplementViews = @[].mutableCopy;
     _containers = @{}.mutableCopy;
@@ -124,6 +134,7 @@
             [self.allSupplementViews addObject:headView];
         }
 
+        //Add Items
         [self setupItemsOfSection:i];
         offsetY += [self heightOfSectionContent:i];
 
@@ -149,7 +160,7 @@
 
     for (int i=0; i<rowCount; i++) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:section];
-        [self addGridCellAtIndexPath:indexPath];
+        [self addCollectionCellAtIndexPath:indexPath];
     }
 }
 
@@ -162,7 +173,7 @@
     [containerView addSubview:cell];
 }
 
-- (void)addGridCellAtIndexPath:(NSIndexPath *)indexPath
+- (void)addCollectionCellAtIndexPath:(NSIndexPath *)indexPath
 {
     CYCollectionCell *itemView = [self dequeueReusableCellAtIndexPath:indexPath];
     [self addGridCell:itemView atIndexPath:indexPath];
@@ -186,8 +197,11 @@
 
 - (void)addTapGesture:(CYCollectionCell *)cell
 {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
-    [cell addGestureRecognizer:tap];
+    if (!cell.collectionView_tapGesture) {
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTap:)];
+        [cell addGestureRecognizer:tap];
+        cell.collectionView_tapGesture = tap;
+    }
 }
 
 - (void)onTap:(UIGestureRecognizer *)gesture
@@ -200,9 +214,12 @@
 
 - (void)addPanGesture:(CYCollectionCell *)cell
 {
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPanGesture:)];
-    pan.delegate = self;
-    [cell addGestureRecognizer:pan];
+    if (!cell.collectionView_panGesture) {
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPanGesture:)];
+        pan.delegate = self;
+        [cell addGestureRecognizer:pan];
+        cell.collectionView_panGesture = pan;
+    }
 }
 
 - (void)onPanGesture:(UIGestureRecognizer *)gesture
@@ -424,11 +441,19 @@
 {
     for (NSString *key in self.containers.allKeys) {
         UIView *view = self.containers[key];
+
+        [view.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[CYCollectionCell class]]) {
+                CYCollectionCell *cell = (CYCollectionCell *)obj;
+                [self removeCell:cell];
+            }
+        }];
         [view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
-        //TODO: add to self.reuseCells
     }
 }
+
+
 //TODO:优化
 #pragma mark - CYCollectionCell Frame Cache Method
 - (CGRect)itemCacheFrameAtIndexPath:(NSIndexPath *)indexPath
@@ -587,22 +612,55 @@
     [visibleCells addObject:cell];
 }
 
+- (void)removeCell:(CYCollectionCell *)cell
+{
+    [self addReuseCell:cell];
+
+    NSIndexPath *indexPath = cell.indexPath;
+    NSString *key = [NSString stringWithFormat:@"%@%zd", kVisibleCellsKey, indexPath.section];
+
+    NSMutableArray *visibleCells = self.allVisibleCells[key];
+    [visibleCells removeObject:cell];
+}
+
 - (CYCollectionCell *)dequeueReusableCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    //TODO:根据 reuse identifier 来做缓存
-    CYCollectionCell *cell = self.reuseCells.anyObject;
-    if (!cell) {
-        cell = [self cellForRowAtRow:indexPath.row section:indexPath.section];
-        if (cell) {
-            //TODO:也有可能已经加过了
-            [self addTapGesture:cell];
-            [self addPanGesture:cell];
-        }
-    }else{
-        [self.reuseCells removeObject:cell];
+    CYCollectionCell *cell = [self cellForRowAtRow:indexPath.row section:indexPath.section];
+    if (cell) {
+        [self addTapGesture:cell];
+        [self addPanGesture:cell];
     }
     cell.indexPath = indexPath;
     return  cell;
+}
+
+- (CYCollectionCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier
+{
+    if (!identifier) {
+        return nil;
+    }
+
+    CYCollectionCell *cell = nil;
+    NSMutableSet *aSet = self.reuseCells[identifier];
+    if (aSet) {
+        cell = aSet.anyObject;
+        [aSet removeObject:cell];
+    }
+    return cell;
+}
+
+- (void)addReuseCell:(CYCollectionCell *)cell
+{
+    if (!cell.reuseIdentifier) {
+        return;
+    }
+
+    NSMutableSet *aSet = self.reuseCells[cell.reuseIdentifier];
+    if (!aSet) {
+        aSet = [NSMutableSet new];
+        self.reuseCells[cell.reuseIdentifier] = aSet;
+    }
+    [aSet addObject:cell];
 }
 
 - (CYCollectionCell *)cellForItemIndexPath:(NSIndexPath *)indexPath
@@ -827,7 +885,7 @@
             }
         }];
 
-        [self addGridCellAtIndexPath:indexPath];
+        [self addCollectionCellAtIndexPath:indexPath];
     }
 
     for (CYCollectionCell *cell in willUpdateItems) {
