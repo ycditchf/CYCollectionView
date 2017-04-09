@@ -14,7 +14,7 @@
 #define  kSpaceOfItems 18
 
 @interface CYTagViewController () <CYCollectionViewDelegate>
-@property (nonatomic, strong) CYCollectionView *gridView;
+@property (nonatomic, strong) CYCollectionView *collectionView;
 @property (nonatomic, strong) NSMutableArray *myTags;
 @property (nonatomic, strong) NSMutableArray *recommendTags;
 
@@ -34,8 +34,8 @@
     self.recommendTags = @[@"汽车", @"社会", @"军事", @"时尚", @"直播", @"图片", @"跟帖", @"NBA", @"热点", @"房产", @"股票", @"轻松一刻", @"态度公开课",@"国际足球", @"CBA", @"读书" ].mutableCopy;
 
     // Do any additional setup after loading the view.
-    [self.view addSubview:self.gridView];
-    [self.gridView reloadData];
+    [self.view addSubview:self.collectionView];
+    [self.collectionView reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -60,11 +60,12 @@
 
 #pragma mark -
 
-- (NSInteger)numberOfSectionInGridView:(CYCollectionView *)gridView
+- (NSInteger)numberOfSectionInCollectionView:(CYCollectionView *)collectionView
 {
     return 2;
 }
-- (NSInteger)gridView:(CYCollectionView *)gridView numberOfRowsInSection:(NSInteger)section
+
+- (NSInteger)collectionView:(CYCollectionView *)collectionView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
         return self.myTags.count;
@@ -73,7 +74,7 @@
     }
 }
 
-- (CGSize)gridView:(CYCollectionView *)gridView sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+- (CGSize)collectionView:(CYCollectionView *)collectionView sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.tagType == 0) {
         return CGSizeMake((self.view.bounds.size.width - 20-3*kSpaceOfItems)/4, 38);
@@ -91,7 +92,7 @@
     return CGSizeMake(width, 38);
 }
 
-- (CYCollectionCell *)gridView:(CYCollectionView *)gridView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CYCollectionCell *)collectionView:(CYCollectionView *)collectionView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Configure the cell
     CYTagCell *cell = [[NSBundle mainBundle] loadNibNamed:@"CYTagCell" owner:nil options:nil].lastObject;
@@ -119,15 +120,15 @@
     if (indexPath.section == 0) {
         NSString *text = self.myTags[indexPath.row];
         [self.myTags removeObjectAtIndex:indexPath.row];
-        [self.gridView deleteItemsAtIndexPaths:@[indexPath]];
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 
         [self.recommendTags addObject:text];
         NSIndexPath *toIndexPath = [NSIndexPath indexPathForRow:self.recommendTags.count-1 inSection:1];
-        [self.gridView insertItemsAtIndexPaths:@[toIndexPath]];
+        [self.collectionView insertItemsAtIndexPaths:@[toIndexPath]];
     }
 }
 
-- (UIView *)gridView:(CYCollectionView *)gridView headerViewForSection:(NSInteger)section
+- (UIView *)collectionView:(CYCollectionView *)collectionView headerViewForSection:(NSInteger)section
 {
     CYTagCellHeader *headerView = [[NSBundle mainBundle] loadNibNamed:@"CYTagCellHeader" owner:nil options:nil].lastObject;
     if (section == 0) {
@@ -138,7 +139,7 @@
         headerView.editBntBlock = ^(CYTagCellHeader *view){
             if (view.isEdit != weakSelf.isEdit) {
                 weakSelf.isEdit = view.isEdit;
-                [weakSelf.gridView reloadData];
+                [weakSelf.collectionView reloadData];
             }
         };
     }else{
@@ -149,31 +150,31 @@
     return headerView;
 }
 
-- (CGFloat)gridView:(CYCollectionView *)gridView interitemSpacingForSectionAtIndex:(NSInteger)section
+- (CGFloat)collectionView:(CYCollectionView *)collectionView interitemSpacingForSectionAtIndex:(NSInteger)section
 {
     return kSpaceOfItems;
 }
-- (CGFloat)gridView:(CYCollectionView *)gridView lineSpacingForSectionAtIndex:(NSInteger)section
+- (CGFloat)collectionView:(CYCollectionView *)collectionView lineSpacingForSectionAtIndex:(NSInteger)section
 {
     return 10;
 }
 
-- (UIEdgeInsets)gridView:(CYCollectionView *)gridView insetForSectionAtIndex:(NSInteger)section
+- (UIEdgeInsets)collectionView:(CYCollectionView *)collectionView insetForSectionAtIndex:(NSInteger)section
 {
     return UIEdgeInsetsMake(15, 10, 15, 10);
 }
 
-- (void)gridView:(CYCollectionView *)gridView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(CYCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"indexPath:%@",indexPath);
     if (indexPath.section == 1) {
         NSString *text = self.recommendTags[indexPath.row];
         [self.recommendTags removeObjectAtIndex:indexPath.row];
-        [self.gridView deleteItemsAtIndexPaths:@[indexPath]];
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
 
         [self.myTags addObject:text];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.myTags.count-1 inSection:0];
-        [self.gridView insertItemsAtIndexPaths:@[indexPath]];
+        [self.collectionView insertItemsAtIndexPaths:@[indexPath]];
 
     }else{
         if (indexPath.row == 0) {
@@ -186,7 +187,7 @@
     }
 }
 
-- (void)gridView:(CYCollectionView *)gridView moveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+- (void)collectionView:(CYCollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
     NSString *text = nil;
     if (fromIndexPath.section == 0) {
@@ -198,7 +199,7 @@
     }
 }
 
-- (BOOL)gridViewShouldReorder:(CYCollectionView *)gridView atIndexPath:(NSIndexPath *)indexPath
+- (BOOL)collectionViewShouldReorder:(CYCollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
@@ -211,7 +212,7 @@
     }
 }
 
-- (NSInteger)gridViewBeginDragIndex:(CYCollectionView *)gridView atSection:(NSInteger)section
+- (NSInteger)collectionViewBeginDragIndex:(CYCollectionView *)collectionView atSection:(NSInteger)section
 {
     if (section == 0) {
         return 0;
@@ -219,13 +220,13 @@
     return -1;
 }
 
-- (CYCollectionView *)gridView
+- (CYCollectionView *)collectionView
 {
-    if (!_gridView) {
-        _gridView = [[CYCollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        _gridView.gridDelegate = self;
+    if (!_collectionView) {
+        _collectionView = [[CYCollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+        _collectionView.gridDelegate = self;
     }
-    return _gridView;
+    return _collectionView;
 }
 
 #pragma mark - Util

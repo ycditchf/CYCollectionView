@@ -10,14 +10,14 @@
 #import <objc/runtime.h>
 
 @implementation UIView (CYCollectionView)
--(void)setGridViewSectionIndex:(NSInteger)gridViewSectionIndex
+-(void)setCollectionViewSectionIndex:(NSInteger)collectionViewSectionIndex
 {
-    objc_setAssociatedObject(self, @selector(gridViewSectionIndex), @(gridViewSectionIndex), OBJC_ASSOCIATION_RETAIN);
+    objc_setAssociatedObject(self, @selector(collectionViewSectionIndex), @(collectionViewSectionIndex), OBJC_ASSOCIATION_RETAIN);
 }
 
-- (NSInteger)gridViewSectionIndex
+- (NSInteger)collectionViewSectionIndex
 {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(gridViewSectionIndex));
+    NSNumber *number = objc_getAssociatedObject(self, @selector(collectionViewSectionIndex));
     if (number) {
         return [number integerValue];
     }

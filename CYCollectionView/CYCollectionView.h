@@ -12,29 +12,29 @@
 
 @protocol CYCollectionViewDelegate <NSObject>
 
-- (NSInteger)numberOfSectionInGridView:(CYCollectionView *)gridView;
-- (NSInteger)gridView:(CYCollectionView *)gridView numberOfRowsInSection:(NSInteger)section;
-- (CGSize)gridView:(CYCollectionView *)gridView sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
-- (CYCollectionCell *)gridView:(CYCollectionView *)gridView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+- (NSInteger)numberOfSectionInCollectionView:(CYCollectionView *)collectionView;
+- (NSInteger)collectionView:(CYCollectionView *)collectionView numberOfRowsInSection:(NSInteger)section;
+- (CGSize)collectionView:(CYCollectionView *)collectionView sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (CYCollectionCell *)collectionView:(CYCollectionView *)collectionView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 //拖拽时必须实现
-- (void)gridView:(CYCollectionView *)gridView moveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
+- (void)collectionView:(CYCollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath;
 
 @optional
-- (UIView *)gridView:(CYCollectionView *)gridView headerViewForSection:(NSInteger)section;
-- (UIView *)gridView:(CYCollectionView *)gridView footerViewForSection:(NSInteger)section;
+- (UIView *)collectionView:(CYCollectionView *)collectionView headerViewForSection:(NSInteger)section;
+- (UIView *)collectionView:(CYCollectionView *)collectionView footerViewForSection:(NSInteger)section;
 
-- (CGFloat)gridView:(CYCollectionView *)gridView interitemSpacingForSectionAtIndex:(NSInteger)section;
-- (CGFloat)gridView:(CYCollectionView *)gridView lineSpacingForSectionAtIndex:(NSInteger)section;
+- (CGFloat)collectionView:(CYCollectionView *)collectionView interitemSpacingForSectionAtIndex:(NSInteger)section;
+- (CGFloat)collectionView:(CYCollectionView *)collectionView lineSpacingForSectionAtIndex:(NSInteger)section;
 
-- (UIEdgeInsets)gridView:(CYCollectionView *)gridView insetForSectionAtIndex:(NSInteger)section;
+- (UIEdgeInsets)collectionView:(CYCollectionView *)collectionView insetForSectionAtIndex:(NSInteger)section;
 
-- (void)gridView:(CYCollectionView *)gridView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)collectionView:(CYCollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath;
 
 //支持拖拽排序
-- (BOOL)gridViewShouldReorder:(CYCollectionView *)gridView atIndexPath:(NSIndexPath *)indexPath;
+- (BOOL)collectionViewShouldReorder:(CYCollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath;
 //isEdit为YES时，对应section 前几个不让拖拽，不指定的返回-1
-- (NSInteger)gridViewBeginDragIndex:(CYCollectionView *)gridView atSection:(NSInteger)section;
+- (NSInteger)collectionViewBeginDragIndex:(CYCollectionView *)collectionView atSection:(NSInteger)section;
 
 @end
 

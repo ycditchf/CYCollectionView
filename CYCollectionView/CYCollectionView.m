@@ -193,8 +193,8 @@
 - (void)onTap:(UIGestureRecognizer *)gesture
 {
     CYCollectionCell *cell = (CYCollectionCell *)gesture.view;
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:didSelectItemAtIndexPath:)]) {
-        [self.gridDelegate gridView:self didSelectItemAtIndexPath:cell.indexPath];
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:didSelectItemAtIndexPath:)]) {
+        [self.gridDelegate collectionView:self didSelectItemAtIndexPath:cell.indexPath];
     }
 }
 
@@ -280,8 +280,8 @@
     NSInteger toIndex = self.pickUpIndexPath.row;
 
     NSInteger beginIndex = -1;
-    if ([self.gridDelegate respondsToSelector:@selector(gridViewBeginDragIndex:atSection:)]) {
-        beginIndex = [self.gridDelegate gridViewBeginDragIndex:self atSection:section];
+    if ([self.gridDelegate respondsToSelector:@selector(collectionViewBeginDragIndex:atSection:)]) {
+        beginIndex = [self.gridDelegate collectionViewBeginDragIndex:self atSection:section];
     }
 
     NSLog(@"beginIndex+1:%zd",beginIndex+1);
@@ -352,10 +352,10 @@
 
         NSLog(@"willUpdateCell:%@",willUpdateCell);
         //告诉代理顺序已经换了
-        SEL selector = @selector(gridView:moveItemAtIndexPath:toIndexPath:);
+        SEL selector = @selector(collectionView:moveItemAtIndexPath:toIndexPath:);
         NSAssert([self.gridDelegate respondsToSelector:selector], NSStringFromSelector(selector));
         NSIndexPath *toIndexPath = [NSIndexPath indexPathForRow:toIndex inSection:section];
-        [self.gridDelegate gridView:self moveItemAtIndexPath:self.pickUpIndexPath toIndexPath:toIndexPath];
+        [self.gridDelegate collectionView:self moveItemAtIndexPath:self.pickUpIndexPath toIndexPath:toIndexPath];
 
         [self clearItemFrameCacheFromIndexPath:[NSIndexPath indexPathForRow:beginIndex inSection:section]];
         self.pickUpIndexPath = toIndexPath;
@@ -388,12 +388,12 @@
         if (![cell isKindOfClass:[CYCollectionCell class]]) {
             return NO;
         }
-        if ([self.gridDelegate respondsToSelector:@selector(gridViewShouldReorder:atIndexPath:)]) {
-            return [self.gridDelegate gridViewShouldReorder:self atIndexPath:cell.indexPath];
+        if ([self.gridDelegate respondsToSelector:@selector(collectionViewShouldReorder:atIndexPath:)]) {
+            return [self.gridDelegate collectionViewShouldReorder:self atIndexPath:cell.indexPath];
         }
         //            NSInteger beginIndex = -1;
-        //            if ([self.gridDelegate respondsToSelector:@selector(gridViewBeginDragIndex:atSection:)]) {
-        //                beginIndex = [self.gridDelegate gridViewBeginDragIndex:self atSection:cell.indexPath.section];
+        //            if ([self.gridDelegate respondsToSelector:@selector(collectionViewBeginDragIndex:atSection:)]) {
+        //                beginIndex = [self.gridDelegate collectionViewBeginDragIndex:self atSection:cell.indexPath.section];
         //            }
         //            if (cell.indexPath.row <= beginIndex) {
         //                return NO;
@@ -514,8 +514,8 @@
 {
     CGFloat height = 0;
     UIView *view = nil;
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:headerViewForSection:)]) {
-        view = [self.gridDelegate gridView:self headerViewForSection:section];
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:headerViewForSection:)]) {
+        view = [self.gridDelegate collectionView:self headerViewForSection:section];
         height = view.bounds.size.height;
     }
     return height;
@@ -638,7 +638,7 @@
 //{
 //    __block UIView *headerView = nil;
 //    [self.allSupplementViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if (obj.gridViewSectionIndex == section) {
+//        if (obj.collectionViewSectionIndex == section) {
 //            headerView = obj;
 //            *stop = YES;
 //        }
@@ -720,8 +720,8 @@
 - (NSInteger)numberOfSection
 {
     NSInteger section = 1;
-    if ([self.gridDelegate respondsToSelector:@selector(numberOfSectionInGridView:)]) {
-        section = [self.gridDelegate numberOfSectionInGridView:self];
+    if ([self.gridDelegate respondsToSelector:@selector(numberOfSectionInCollectionView:)]) {
+        section = [self.gridDelegate numberOfSectionInCollectionView:self];
     }
     return section;
 }
@@ -729,8 +729,8 @@
 - (NSInteger)numberOfRowAtSection:(NSInteger)section
 {
     NSInteger rowCount = 0;
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:numberOfRowsInSection:)]) {
-        rowCount = [self.gridDelegate gridView:self numberOfRowsInSection:section];
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:numberOfRowsInSection:)]) {
+        rowCount = [self.gridDelegate collectionView:self numberOfRowsInSection:section];
     }
     return rowCount;
 }
@@ -738,9 +738,9 @@
 - (CGSize)sizeForItemAtRow:(NSInteger)row section:(NSInteger)section
 {
     CGSize itemSize = CGSizeMake(80, 80);
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:sizeForItemAtIndexPath:)]) {
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:sizeForItemAtIndexPath:)]) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-        itemSize = [self.gridDelegate gridView:self sizeForItemAtIndexPath:indexPath];
+        itemSize = [self.gridDelegate collectionView:self sizeForItemAtIndexPath:indexPath];
     }
     return itemSize;
 }
@@ -748,9 +748,9 @@
 - (CYCollectionCell *)cellForRowAtRow:(NSInteger)row section:(NSInteger)section
 {
     CYCollectionCell *cell = nil;
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:cellForRowAtIndexPath:)]) {
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:cellForRowAtIndexPath:)]) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
-        cell = [self.gridDelegate gridView:self cellForRowAtIndexPath:indexPath];
+        cell = [self.gridDelegate collectionView:self cellForRowAtIndexPath:indexPath];
         cell.indexPath = indexPath;
     }
     return cell;
@@ -759,9 +759,9 @@
 - (UIView *)headerViewForSection:(NSInteger)section
 {
     UIView *view = nil;
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:headerViewForSection:)]) {
-        view = [self.gridDelegate gridView:self headerViewForSection:section];
-        view.gridViewSectionIndex = section;
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:headerViewForSection:)]) {
+        view = [self.gridDelegate collectionView:self headerViewForSection:section];
+        view.collectionViewSectionIndex = section;
     }
     return view;
 }
@@ -769,33 +769,33 @@
 - (UIView *)footerViewForSection:(NSInteger)section
 {
     UIView *view = nil;
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:footerViewForSection:)]) {
-        view = [self.gridDelegate gridView:self footerViewForSection:section];
-        view.gridViewSectionIndex = section;
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:footerViewForSection:)]) {
+        view = [self.gridDelegate collectionView:self footerViewForSection:section];
+        view.collectionViewSectionIndex = section;
     }
     return view;
 }
 
 - (CGFloat)interitemSpacingForSectionAtIndex:(NSInteger)section
 {
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:interitemSpacingForSectionAtIndex:)]) {
-        return [self.gridDelegate gridView:self interitemSpacingForSectionAtIndex:section];
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:interitemSpacingForSectionAtIndex:)]) {
+        return [self.gridDelegate collectionView:self interitemSpacingForSectionAtIndex:section];
     }
     return 0;
 }
 
 - (CGFloat)lineSpacingForSectionAtIndex:(NSInteger)section
 {
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:lineSpacingForSectionAtIndex:)]) {
-        return [self.gridDelegate gridView:self lineSpacingForSectionAtIndex:section];
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:lineSpacingForSectionAtIndex:)]) {
+        return [self.gridDelegate collectionView:self lineSpacingForSectionAtIndex:section];
     }
     return 0;
 }
 
 - (UIEdgeInsets)insetForSectionAtIndex:(NSInteger)section
 {
-    if ([self.gridDelegate respondsToSelector:@selector(gridView:insetForSectionAtIndex:)]) {
-        return [self.gridDelegate gridView:self insetForSectionAtIndex:section];
+    if ([self.gridDelegate respondsToSelector:@selector(collectionView:insetForSectionAtIndex:)]) {
+        return [self.gridDelegate collectionView:self insetForSectionAtIndex:section];
     }
     return UIEdgeInsetsZero;
 }
@@ -904,7 +904,7 @@
 //{
 //    [UIView animateWithDuration:0.3 animations:^{
 //        [self.allSupplementViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            NSInteger section = obj.gridViewSectionIndex;
+//            NSInteger section = obj.collectionViewSectionIndex;
 //            if (section != NSNotFound) {
 //                obj.frame = [self frameForItemHeaderAtSection:section];
 //            }
@@ -939,7 +939,7 @@
 
         //TODO: Update Footer View
 //        [self.allSupplementViews enumerateObjectsUsingBlock:^(UIView *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            NSInteger section = obj.gridViewSectionIndex;
+//            NSInteger section = obj.collectionViewSectionIndex;
 //
 //            if (section != NSNotFound) {
 //                obj.frame = [self frameForItemHeaderAtSection:section];;
