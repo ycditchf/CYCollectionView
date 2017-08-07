@@ -192,6 +192,7 @@
         }
     }];
     [visibleCells removeObject:removeCell];
+    [self clearItemFrameCacheFromIndexPath:removeCell.indexPath];
     return removeCell;
 }
 
@@ -228,7 +229,6 @@
     UIView *containerView = [self itemsContainerAtSection:cell.indexPath.section];
 
     if (gesture.state == UIGestureRecognizerStateBegan) {
-
 
         self.isPickUpCell = YES;
         [containerView bringSubviewToFront:cell];
@@ -313,23 +313,35 @@
         CGPoint center = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
         NSInteger row = (center.y- headerHeight)/rowHeight;
         NSLog(@"row:%zd",row);
+
+        //比较最后一个
         if (i == [self numberOfRowAtSection:section]-1) {
             NSLog(@"i:%zd center:%@ last one row:%zd",i, NSStringFromCGPoint(center),row);
             if (realCellRow >= row && realCenter.x > center.x) {
                 toIndex = [self numberOfRowAtSection:section]-1;
+                break;
             }
         }
 
+        //同一行
         if (row == realCellRow) {
             if (center.x > realCenter.x) {
-                toIndex = i;
+                //需要区分是往前拖动还是往后
+                if (self.pickUpIndexPath.row < i) {
+                    toIndex = i-1;
+                }else{
+                    toIndex = i;
+                }
                 break;
             }
         }else if(row > realCellRow){
-            toIndex = i;
+            if (self.pickUpIndexPath.row < i) {
+                toIndex = i-1;
+            }else{
+                toIndex = i;
+            }
             break;
         }
-
 
     }
 
@@ -644,7 +656,9 @@
     NSMutableSet *aSet = self.reuseCells[identifier];
     if (aSet) {
         cell = aSet.anyObject;
-        [aSet removeObject:cell];
+        if (cell) {
+            [aSet removeObject:cell];
+        }
     }
     return cell;
 }
@@ -663,6 +677,7 @@
     [aSet addObject:cell];
 }
 
+//TODO：资源重复利用的情况下可能不存
 - (CYCollectionCell *)cellForItemIndexPath:(NSIndexPath *)indexPath
 {
     __block CYCollectionCell *cell = nil;

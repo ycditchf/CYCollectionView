@@ -56,6 +56,6 @@
 
 - (void)moveItemAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)newIndexPath;
 
-
+- (CYCollectionCell *)cellForItemIndexPath:(NSIndexPath *)indexPath;
 - (CYCollectionCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier;
 @end
